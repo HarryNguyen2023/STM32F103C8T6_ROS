@@ -101,14 +101,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
-	  HAL_Delay(500);
-<<<<<<< HEAD
-	  loop();
 //	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
-//	  HAL_Delay(1000);
-=======
->>>>>>> b57a6446d33a79e31dcf02115e64c6e80dbebcb0
+//	  HAL_Delay(500);
+	  loop();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
