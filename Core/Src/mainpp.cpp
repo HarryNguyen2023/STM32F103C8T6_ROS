@@ -34,6 +34,7 @@ void loop(void)
 #ifdef STM32F1xx
   HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
 #endif
+
 #ifdef STM32F4xx
   HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
 #endif
