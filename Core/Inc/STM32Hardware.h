@@ -40,7 +40,7 @@
 #ifdef STM32F1xx
 #include "stm32f1xx_hal.h"
 #include "stm32f1xx_hal_uart.h"
-#endif /* STM32F3xx */
+#endif /* STM32F1xx */
 
 #ifdef STM32F3xx
 #include "stm32f3xx_hal.h"
@@ -106,14 +106,15 @@ class STM32Hardware {
 
         if(twind != tfind){
           uint16_t len = 0;
-		  if(tfind < twind){
-			len = twind - tfind;
-			HAL_UART_Transmit_DMA(huart, &(tbuf[tfind]), len);
-		  }else{
-			len = tbuflen - tfind;
-			HAL_UART_Transmit_DMA(huart, &(tbuf[tfind]), len);
-			HAL_UART_Transmit_DMA(huart, &(tbuf[twind]), len);
-		  }
+          if(tfind < twind){
+            len = twind - tfind;
+            HAL_UART_Transmit_DMA(huart, &(tbuf[tfind]), len);
+          }
+          else{
+            len = tbuflen - tfind;
+            HAL_UART_Transmit_DMA(huart, &(tbuf[tfind]), len);
+            HAL_UART_Transmit_DMA(huart, tbuf, twind);
+          }
           tfind = twind;
         }
         mutex = false;
