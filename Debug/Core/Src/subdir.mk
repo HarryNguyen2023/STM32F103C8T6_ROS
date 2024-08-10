@@ -1,9 +1,16 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (12.3.rel1)
+# Toolchain: GNU Tools for STM32 (10.3-2021.10)
 ################################################################################
 
 # Add inputs and outputs from these tool invocations to the build variables 
+C_SRCS += \
+../Core/Src/stm32f1xx_hal_msp.c \
+../Core/Src/stm32f1xx_it.c \
+../Core/Src/syscalls.c \
+../Core/Src/sysmem.c \
+../Core/Src/system_stm32f1xx.c 
+
 CPP_SRCS += \
 ../Core/Src/PID_motor.cpp \
 ../Core/Src/PID_motor_cfg.cpp \
@@ -12,16 +19,7 @@ CPP_SRCS += \
 ../Core/Src/mainpp.cpp \
 ../Core/Src/time.cpp 
 
-C_SRCS += \
-../Core/Src/main.c \
-../Core/Src/stm32f1xx_hal_msp.c \
-../Core/Src/stm32f1xx_it.c \
-../Core/Src/syscalls.c \
-../Core/Src/sysmem.c \
-../Core/Src/system_stm32f1xx.c 
-
 C_DEPS += \
-./Core/Src/main.d \
 ./Core/Src/stm32f1xx_hal_msp.d \
 ./Core/Src/stm32f1xx_it.d \
 ./Core/Src/syscalls.d \

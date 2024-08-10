@@ -79,6 +79,9 @@ void setup(void)
 
   motorInit(motor_left);
   motorInit(motor_right);
+
+  inputSpeedHandling(&motor_left, 50.0);
+  inputSpeedHandling(&motor_right, 50.0);
 }
 
 void loop(void)
