@@ -6,38 +6,38 @@
  *      Author: yoneken
  */
 #include <mainpp.h>
+
 #include <ros.h>
-#include <std_msgs/Int16.h>
+#include <std_msgs/UInt32.h>
+
+#include "../../ECUAL/PID_motor/PID_motor.h"
+#include "../../ECUAL/PID_motor/PID_motor_cfg.h"
 
 ros::NodeHandle nh;
 
-std_msgs::Int16 left_motor_pos;
-std_msgs::Int16 right_motor_pos;
+std_msgs::UInt32 robot_wheels_pos;
 
-volatile int16_t left_motor_vel = 0;
-volatile int16_t right_motor_vel = 0;
+SendBuffer send_buffer;
+RcvBufffer rcv_buffer;
+
 volatile uint8_t tick = 0;
+static int16_t left_enc_ticks = 0;
+static int16_t right_enc_ticks = 0;
 
 // ******************* Motor Velocity Callback ************************* 
-void leftCmdVelCallBack(const std_msgs::Int16& left_vel)
-{
-	HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
-	left_motor_vel = left_vel.data;
-}
-
-void rightCmdVelCallBack(const std_msgs::Int16& right_vel)
+void robotCmdVelCallBack(const std_msgs::UInt32& robot_vel)
 {
 	HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
-	right_motor_vel = right_vel.data;
+	rcv_buffer.robot_vel_msg = robot_vel.data;
+	inputSpeedHandling(&motor_left, (float)rcv_buffer.robot_wheels_vel[0]);
+	inputSpeedHandling(&motor_right, (float)rcv_buffer.robot_wheels_vel[1]);
 }
 
 // ************************** Declare subscribers **********************************
-ros::Subscriber<std_msgs::Int16> left_motor_vel_sub("left_motor_vel", &leftCmdVelCallBack);
-ros::Subscriber<std_msgs::Int16> right_motor_vel_sub("right_motor_vel", &rightCmdVelCallBack);
+ros::Subscriber<std_msgs::UInt32> robot_vel_sub("robot_wheel_vel", &robotCmdVelCallBack);
 
 // ************************** Declare publishers **********************************
-ros::Publisher left_motor_pub("left_motor_pos", &left_motor_pos);
-ros::Publisher right_motor_pub("right_motor_pos", &right_motor_pos);
+ros::Publisher robot_pos_pub("robot_wheel_pos", &robot_wheels_pos);
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart){
   nh.getHardware()->flush();
@@ -50,15 +50,23 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 // Function for timer interrupt callback
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
+	speedControlPID(&motor_left);
+	speedControlPID(&motor_right);
+
+	left_enc_ticks += motor_left.real_speed;
+	right_enc_ticks += motor_right.real_speed;
+
+	// Publish new data every 100 ms
 	if(++tick == 5)
 	{
 		tick = 0;
-	    // Publish new data every 100 ms
-	    left_motor_pos.data = left_motor_vel;
-	    left_motor_pub.publish(&left_motor_pos);
-
-	    right_motor_pos.data = right_motor_vel;
-	    right_motor_pub.publish(&right_motor_pos);
+		send_buffer.robot_wheels_pos[0] = left_enc_ticks;
+		send_buffer.robot_wheels_pos[1] = right_enc_ticks;
+		robot_wheels_pos.data = send_buffer.robot_pos_msg;
+		robot_pos_pub.publish(&robot_wheels_pos);
+		// Reset the encoders tick
+		left_enc_ticks = 0;
+		right_enc_ticks = 0;
 	}
 }
 
@@ -66,11 +74,11 @@ void setup(void)
 {
   nh.initNode();
   // Initiate publishers and subscribers
-  nh.advertise(left_motor_pub);
-  nh.advertise(right_motor_pub);
+  nh.advertise(robot_pos_pub);
+  nh.subscribe(robot_vel_sub);
 
-  nh.subscribe(left_motor_vel_sub);
-  nh.subscribe(right_motor_vel_sub);
+  motorInit(motor_left);
+  motorInit(motor_right);
 }
 
 void loop(void)
@@ -81,12 +89,7 @@ void loop(void)
 #ifdef STM32F3xx
   HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
 #endif
-//  left_motor_pos.data = left_motor_vel;
-//  left_motor_pub.publish(&left_motor_pos);
-//
-//  right_motor_pos.data = right_motor_vel;
-//  right_motor_pub.publish(&right_motor_pos);
+
   nh.spinOnce();
-  HAL_Delay(1);
 }
 

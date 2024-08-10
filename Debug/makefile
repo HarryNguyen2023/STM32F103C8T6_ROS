@@ -9,6 +9,7 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include ECUAL/PID_motor/subdir.mk
 -include Drivers/STM32F1xx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
@@ -76,7 +77,7 @@ main-build: STM32F103C8T6_ROS_connection.elf secondary-outputs
 
 # Tool invocations
 STM32F103C8T6_ROS_connection.elf STM32F103C8T6_ROS_connection.map: $(OBJS) $(USER_OBJS) C:\Users\84935\STM32F103C8T6\STM32F103C8T6_ROS\STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "STM32F103C8T6_ROS_connection.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\84935\STM32F103C8T6\STM32F103C8T6_ROS\STM32F103C8TX_FLASH.ld" -Wl,-Map="STM32F103C8T6_ROS_connection.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+	arm-none-eabi-g++ -o "STM32F103C8T6_ROS_connection.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\84935\STM32F103C8T6\STM32F103C8T6_ROS\STM32F103C8TX_FLASH.ld" -Wl,-Map="STM32F103C8T6_ROS_connection.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

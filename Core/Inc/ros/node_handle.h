@@ -329,10 +329,8 @@ public:
       requestSyncTime();
       last_sync_time = c_time;
     }
-
     return SPIN_OK;
   }
-
 
   /* Are we connected to the PC? */
   virtual bool connected() override

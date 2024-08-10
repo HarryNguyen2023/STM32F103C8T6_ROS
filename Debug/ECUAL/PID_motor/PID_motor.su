@@ -1,0 +1,9 @@
+../ECUAL/PID_motor/PID_motor.c:15:13:outputSpeedPID	40	static
+../ECUAL/PID_motor/PID_motor.c:65:17:readEncoder	16	static
+../ECUAL/PID_motor/PID_motor.c:71:13:resetEncoder	16	static
+../ECUAL/PID_motor/PID_motor.c:79:6:motorInit	48	static
+../ECUAL/PID_motor/PID_motor.c:104:6:dutyCycleUpdate	16	static
+../ECUAL/PID_motor/PID_motor.c:126:6:motorBrake	16	static
+../ECUAL/PID_motor/PID_motor.c:133:6:resetPID	16	static
+../ECUAL/PID_motor/PID_motor.c:149:6:inputSpeedHandling	24	static
+../ECUAL/PID_motor/PID_motor.c:172:6:speedControlPID	24	static

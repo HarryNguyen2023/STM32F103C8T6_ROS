@@ -101,7 +101,8 @@ class STM32Hardware {
     void flush(void){
       static bool mutex = false;
 
-      if((huart->gState == HAL_UART_STATE_READY) && !mutex){
+      if((huart->gState == HAL_UART_STATE_READY) && !mutex)
+      {
         mutex = true;
 
         if(twind != tfind){
@@ -113,7 +114,7 @@ class STM32Hardware {
           else{
             len = tbuflen - tfind;
             HAL_UART_Transmit_DMA(huart, &(tbuf[tfind]), len);
-            HAL_UART_Transmit_DMA(huart, tbuf, twind);
+            HAL_UART_Transmit_DMA(huart, &tbuf[0], twind);
           }
           tfind = twind;
         }
@@ -123,16 +124,15 @@ class STM32Hardware {
 
     void write(uint8_t* data, int length){
       int n = length;
-      n = n <= tbuflen ? n : tbuflen;
+      n = (n <= tbuflen) ? n : tbuflen;
 
-      int n_tail = n <= tbuflen - twind ? n : tbuflen - twind;
+      int n_tail = (n <= tbuflen - twind) ? n : tbuflen - twind;
       memcpy(&(tbuf[twind]), data, n_tail);
       twind = (twind + n) & (tbuflen - 1);
 
       if(n != n_tail){
         memcpy(tbuf, &(data[n_tail]), n - n_tail);
       }
-
       flush();
     }
 
