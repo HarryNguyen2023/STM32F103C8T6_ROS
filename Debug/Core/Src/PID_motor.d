@@ -1,5 +1,4 @@
-ECUAL/PID_motor/PID_motor_cfg.o: ../ECUAL/PID_motor/PID_motor_cfg.c \
- ../ECUAL/PID_motor/PID_motor.h \
+Core/Src/PID_motor.o: ../Core/Src/PID_motor.cpp ../Core/Inc/PID_motor.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  ../Core/Inc/stm32f1xx_hal_conf.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
@@ -24,8 +23,9 @@ ECUAL/PID_motor/PID_motor_cfg.o: ../ECUAL/PID_motor/PID_motor_cfg.c \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
- ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
-../ECUAL/PID_motor/PID_motor.h:
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
+ ../Core/Inc/PID_motor_cfg.h
+../Core/Inc/PID_motor.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 ../Core/Inc/stm32f1xx_hal_conf.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h:
@@ -51,3 +51,4 @@ ECUAL/PID_motor/PID_motor_cfg.o: ../ECUAL/PID_motor/PID_motor_cfg.c \
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:
+../Core/Inc/PID_motor_cfg.h:

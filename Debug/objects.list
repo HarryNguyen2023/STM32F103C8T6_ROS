@@ -1,3 +1,5 @@
+"./Core/Src/PID_motor.o"
+"./Core/Src/PID_motor_cfg.o"
 "./Core/Src/duration.o"
 "./Core/Src/main.o"
 "./Core/Src/mainpp.o"
@@ -22,5 +24,3 @@
 "./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.o"
 "./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.o"
 "./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.o"
-"./ECUAL/PID_motor/PID_motor.o"
-"./ECUAL/PID_motor/PID_motor_cfg.o"

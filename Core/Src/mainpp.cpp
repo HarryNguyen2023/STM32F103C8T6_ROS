@@ -6,12 +6,12 @@
  *      Author: yoneken
  */
 #include <mainpp.h>
+#include <PID_motor.h>
+#include <PID_motor_cfg.h>
 
 #include <ros.h>
 #include <std_msgs/UInt32.h>
 
-#include "../../ECUAL/PID_motor/PID_motor.h"
-#include "../../ECUAL/PID_motor/PID_motor_cfg.h"
 
 ros::NodeHandle nh;
 
@@ -27,7 +27,7 @@ static int16_t right_enc_ticks = 0;
 // ******************* Motor Velocity Callback ************************* 
 void robotCmdVelCallBack(const std_msgs::UInt32& robot_vel)
 {
-	HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
+	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
 	rcv_buffer.robot_vel_msg = robot_vel.data;
 	inputSpeedHandling(&motor_left, (float)rcv_buffer.robot_wheels_vel[0]);
 	inputSpeedHandling(&motor_right, (float)rcv_buffer.robot_wheels_vel[1]);

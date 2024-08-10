@@ -1,5 +1,6 @@
-#include "PID_motor.h"
-#include "PID_motor_cfg.h"
+#include <PID_motor.h>
+#include <PID_motor_cfg.h>
+
 #include <stdlib.h>
 
 // Define some PID variables
@@ -82,7 +83,7 @@ void motorInit(PID_motor motor)
     // Initiate the GPIO pins of the motor
     for(int i = 0; i < 2; ++i)
     {
-        HAL_GPIO_WritePin(motor.motor_ports[i], motor.motor_pins[i], 0);
+        HAL_GPIO_WritePin(motor.motor_ports[i], motor.motor_pins[i], GPIO_PIN_RESET);
         if(motor.motor_ports[i] == GPIOA)
             __HAL_RCC_GPIOA_CLK_ENABLE();
         else if (motor.motor_ports[i] == GPIOB)
@@ -125,8 +126,8 @@ void dutyCycleUpdate(uint16_t duty_cycle, PID_motor* motor)
 // Function to brake the motor immediately
 void motorBrake(PID_motor* motor)
 {
-    HAL_GPIO_WritePin(motor->motor_ports[0], motor->motor_pins[0], 0);
-    HAL_GPIO_WritePin(motor->motor_ports[1], motor->motor_pins[1], 0);
+    HAL_GPIO_WritePin(motor->motor_ports[0], motor->motor_pins[0], GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(motor->motor_ports[1], motor->motor_pins[1], GPIO_PIN_RESET);
 }
 
 // Function to reset the PID value of the motor when it is not moving
@@ -184,13 +185,13 @@ void speedControlPID(PID_motor* motor)
     // Control the direction of the motor
     if(motor->direction == 0)
     {
-        HAL_GPIO_WritePin(motor->motor_ports[0], motor->motor_pins[0], 1);
-        HAL_GPIO_WritePin(motor->motor_ports[1], motor->motor_pins[1], 0);
+        HAL_GPIO_WritePin(motor->motor_ports[0], motor->motor_pins[0], GPIO_PIN_SET);
+        HAL_GPIO_WritePin(motor->motor_ports[1], motor->motor_pins[1], GPIO_PIN_RESET);
     }
     else if(motor->direction == 1)
     {
-        HAL_GPIO_WritePin(motor->motor_ports[0], motor->motor_pins[0], 0);
-        HAL_GPIO_WritePin(motor->motor_ports[1], motor->motor_pins[1], 1);
+        HAL_GPIO_WritePin(motor->motor_ports[0], motor->motor_pins[0], GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(motor->motor_ports[1], motor->motor_pins[1], GPIO_PIN_SET);
     }
 
     // Feed the value of the PWM duty cycle
