@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "mainpp.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -108,17 +108,6 @@ int main(void)
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 
-  setup();
-
-  // Initiate the PWM of the 2 motors
-  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_2);
-
-    // Initiate the Encoder read of 2 motors
-  HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL);
-  HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL);
-
-  HAL_TIM_Base_Start_IT(&htim1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
