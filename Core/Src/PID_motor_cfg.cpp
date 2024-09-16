@@ -17,7 +17,7 @@ PID_motor motor_left =
         1.39,
         0.0,
     },
-    0,
+    CCW_DIRECTION,
     0.0,
     0,
     0,
@@ -27,7 +27,7 @@ PID_motor motor_left =
     0.0,
     0.0,
     0,
-    0
+    MOTOR_STOP
 };
 
 // Parameters for motor 2
@@ -47,7 +47,7 @@ PID_motor motor_right =
         1.31,
         0.0,
     },
-    0,
+	CCW_DIRECTION,
     0.0,
     0,
     0,
@@ -57,5 +57,5 @@ PID_motor motor_right =
     0.0,
     0.0,
     0,
-    0
+    MOTOR_STOP
 };

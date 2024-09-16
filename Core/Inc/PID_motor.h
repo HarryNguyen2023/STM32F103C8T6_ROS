@@ -13,6 +13,18 @@ typedef enum
     PWM_CHANNEL_4
 }PWM_CHANNEL;
 
+typedef enum
+{
+	CCW_DIRECTION,
+	CW_DIRECTION
+}MOTOR_DIRECTION;
+
+typedef enum
+{
+	MOTOR_STOP,
+	MOTOR_MOVING
+}MOTOR_STATE;
+
 // Structure for PID speed control
 typedef struct 
 {
@@ -45,7 +57,7 @@ typedef struct
     Speed_controller speed_controller;
 
     // PID controller parameters
-    uint8_t direction;
+    MOTOR_DIRECTION direction;
     float targetPulsePerFrame;
     int32_t real_speed;
     uint32_t current_encoder;
@@ -55,14 +67,13 @@ typedef struct
     float lim_max_integ;
     float lim_min_integ;
     int32_t output;
-    uint8_t moving;
+    MOTOR_STATE moving;
 }PID_motor;
 
 // Function prototypes
 void motorInit(PID_motor motor);
 void speedControlPID(PID_motor* motor);
 void motorBrake(PID_motor* motor);
-void resetPID(PID_motor* motor);
 void dutyCycleUpdate(uint16_t duty_cycle, PID_motor* motor);
 void inputSpeedHandling(PID_motor* motor, float speed);
 
